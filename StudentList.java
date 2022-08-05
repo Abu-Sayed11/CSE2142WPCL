@@ -1,5 +1,4 @@
 import java.io.*;
-// import java.sql.SQLOutput;
 import java.text.*;
 import java.util.*;
 
@@ -14,14 +13,12 @@ public class StudentList {
 		if (args[0].equals(Constants.showAll)) {
 			System.out.println(Constants.loadData);
 			try {
-				BufferedReader bufferReader = readFile();
-				String students = bufferReader.readLine();
-				String names[] = students.split(Constants.comma);
-
-				for (String student : names) {
-					System.out.println(student.trim());
+				BufferedReader bufferedReader = readFile();
+				String names[] = bufferedReader.readLine().split(Constants.comma);
+				for (String name : names) {
+					System.out.println(name.trim());
 				}
-				bufferReader.close();
+				bufferedReader.close();
 			} catch (Exception e) {
 
 			}
@@ -30,11 +27,9 @@ public class StudentList {
 			System.out.println(Constants.loadData);
 			try {
 				BufferedReader bufferedReader = readFile();
-				String students = bufferedReader.readLine();
-				String names[] = students.split(Constants.comma);
+				String names[] = bufferedReader.readLine().split(Constants.comma);
 				Random random = new Random();
-				int randomIndex = random.nextInt(4);
-				System.out.println(names[randomIndex].trim());
+				System.out.println(names[random.nextInt(4)].trim());
 				bufferedReader.close();
 			} catch (Exception e) {
 
@@ -46,10 +41,8 @@ public class StudentList {
 				BufferedWriter bufferedWriter = writeFile();
 				String student = args[0].substring(1);
 				Date date = new Date();
-				String dateFormatString = Constants.dateFormatString;
-				DateFormat dateFormat = new SimpleDateFormat(dateFormatString);
-				String formatDate = dateFormat.format(date);
-				bufferedWriter.write(Constants.comma + student + "\nList last updated on " + formatDate);
+				DateFormat dateFormat = new SimpleDateFormat(Constants.dateFormatString);
+				bufferedWriter.write(Constants.comma + " " + student + "\nList last updated on " + dateFormat.format(date));
 				bufferedWriter.close();
 			} catch (Exception e) {
 
@@ -60,15 +53,19 @@ public class StudentList {
 			System.out.println(Constants.loadData);
 			try {
 				BufferedReader bufferedReader = readFile();
-				String students = bufferedReader.readLine();
-				String names[] = students.split(Constants.comma);
-				boolean done = false;
+				String names[] = bufferedReader.readLine().split(Constants.comma);				
 				String studentName = args[0].substring(1);
-				for (int index = 0; index < names.length && !done; index++) {
+				int countNames = 0;
+				for (int index = 0; index < names.length; index++) {
 					if (names[index].trim().equals(studentName)) {
-						System.out.println(Constants.found);
-						done = true;
+						countNames = countNames + 1;
 					}
+				}
+				if(countNames == 0) {
+					System.out.println("Name not found!");
+				}
+				else {
+					System.out.println(countNames + " name found!");
 				}
 				bufferedReader.close();
 			} catch (Exception e) {
@@ -79,11 +76,9 @@ public class StudentList {
 			System.out.println(Constants.loadData);
 			try {
 				BufferedReader bufferedReader = readFile();
-				String students = bufferedReader.readLine();
-
-				String names[] = students.split(Constants.comma);
-				int countWord = names.length;
-				System.out.println(countWord + " word found");
+				String words[] = bufferedReader.readLine().split(Constants.comma);
+				// names.length means total number of words which is splitted by comma.
+				System.out.println(words.length + " words found!");
 				bufferedReader.close();
 			} catch (Exception e) {
 
